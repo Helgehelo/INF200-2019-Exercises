@@ -11,19 +11,21 @@ class LCGRand:
     def rand(self):
         a = 16807
         m = 2**31-1
-        random_number = a*16807*self.seed*m
-        return random_number
+        self.seed = a*self.seed % m
+        return self.seed
 
 
 class ListRand:
     def __init__(self, list_of_numbers):
         self.list = list_of_numbers
+        self.idx = 0
 
     def rand(self):
         number_list = self.list
-        if len(number_list) == 0:
+        if self.idx == len(number_list):
             raise RuntimeError("Last number has been returned")
-        number = number_list.pop(0)
+        number = number_list[self.idx]
+        self.idx += 1
         return number
 
 
