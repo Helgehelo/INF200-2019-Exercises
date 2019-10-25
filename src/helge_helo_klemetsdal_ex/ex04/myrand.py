@@ -37,3 +37,8 @@ if __name__ == "__main__":
 
     for _ in range(3):
         print(lr.rand())
+
+    try:
+        lr.rand()
+    except RuntimeError:
+        print("Last number has been returned")
