@@ -1,3 +1,3 @@
 from setuptools import setup, find_packages
 
-setup(install_requires=['pytest'])
+setup(install_requires=['pytest', 'numpy'])
