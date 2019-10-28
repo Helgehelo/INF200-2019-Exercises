@@ -40,7 +40,7 @@ def simulating_the_walker(simulations, list_of_distances):
             while walk.is_at_home() is False:
                 walk.move()
             steps_list.append(walk.steps)
-        print(f"Distance:   {distance} -> Path lenghts: {steps_list}")
+        print(f"Distance: {distance:3} -> Path lengths: {steps_list}")
 
 
 if __name__ == "__main__":
