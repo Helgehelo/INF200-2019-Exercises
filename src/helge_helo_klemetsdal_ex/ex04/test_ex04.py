@@ -10,8 +10,8 @@ Your code should pass these tests before submission.
 """
 
 import pytest
-from myrand import LCGRand, ListRand
-from walker import Walker
+from .myrand import LCGRand, ListRand
+from .walker import Walker
 
 
 def test_lcg():
