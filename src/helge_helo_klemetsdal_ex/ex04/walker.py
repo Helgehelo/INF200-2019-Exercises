@@ -13,10 +13,11 @@ class Walker:
         self.steps = 0
 
     def move(self):
-        movement = rd.randint(-1, 1)
-        while movement == 0:
-            movement = rd.randint(-1, 1)
-        self.position += movement
+        movement = rd.randint(0, 1)
+        if movement == 0:
+            self.position -= 1
+        else:
+            self.position += movement
         self.steps += 1
 
     def is_at_home(self):
