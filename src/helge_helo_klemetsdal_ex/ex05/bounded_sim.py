@@ -84,4 +84,6 @@ if __name__ == "__main__":
     left_boundaries = [0, -10, -100, -1000, -10000]
     right_boundary = 20
     for left_boundary in left_boundaries:
-        print(f"Left boundary: {left_boundary} Walks : {left_boundaries}")
+        sim = BoundedSimulation(0, 20, 1, left_boundary, right_boundary)
+        print(f"Left boundary: {left_boundary} "
+              f"Walks : {[sim.single_walk() for _ in range(20)]}")

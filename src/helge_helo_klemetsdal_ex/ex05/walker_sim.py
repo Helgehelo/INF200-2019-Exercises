@@ -4,6 +4,8 @@ __author__ = 'Helge Helo Klemetsdal'
 __email__ = 'hegkleme@nmbu.no'
 
 import random as rd
+
+
 class Walker:
     def __init__(self, start, home):
         """
@@ -13,6 +15,7 @@ class Walker:
         self.position = start
         self.home = home
         self.steps = 0
+
     def move(self):
         """
         Change coordinate by +1 or -1 with equal probability.
@@ -57,6 +60,7 @@ class Simulation:
         self.start = start
         self.home = home
         rd.seed(seed)
+
     def single_walk(self):
         """
         Simulate single walk from start to home, returning number of steps.
@@ -70,6 +74,7 @@ class Simulation:
         while walk.is_at_home() is False:
             walk.move()
         return walk.get_steps()
+
     def run_simulation(self, num_walks):
         """
         Run a set of walks, returns list of number of steps taken.
@@ -94,7 +99,7 @@ if __name__ == "__main__":
         print(sim1.run_simulation(20))
         print(sim2.run_simulation(20))
 
-    sim3 = Simulation(0,10,54321)
-    sim4 = Simulation(10,0,54321)
+    sim3 = Simulation(0, 10, 54321)
+    sim4 = Simulation(10, 0, 54321)
     print(sim3.run_simulation(20))
     print(sim4.run_simulation(20))
