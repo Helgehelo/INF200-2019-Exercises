@@ -78,3 +78,10 @@ class BoundedSimulation(Simulation):
         while walk.is_at_home() is False:
             walk.move()
         return walk.get_steps()
+
+
+if __name__ == "__main__":
+    left_boundaries = [0, -10, -100, -1000, -10000]
+    right_boundary = 20
+    for left_boundary in left_boundaries:
+        print(f"Left boundary: {left_boundary} Walks : {left_boundaries}")
