@@ -2,7 +2,7 @@
 
 __author__ = 'Helge Helo Klemetsdal'
 __email__ = 'hegkleme@nmbu.no'
-from .walker_sim import Walker, Simulation
+from walker_sim import Walker, Simulation
 import random as rd
 
 
@@ -85,5 +85,5 @@ if __name__ == "__main__":
     right_boundary = 20
     for left_boundary in left_boundaries:
         sim = BoundedSimulation(0, 20, 1, left_boundary, right_boundary)
-        print(f"Left boundary: {left_boundary} "
+        print(f"Left boundary: {left_boundary:3} "
               f"Walks : {[sim.single_walk() for _ in range(20)]}")
