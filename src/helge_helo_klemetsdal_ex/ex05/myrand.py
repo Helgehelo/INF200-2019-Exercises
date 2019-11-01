@@ -66,51 +66,49 @@ class RandIter:
         self.length = length
         self.num_generated_numbers = None
 
-        def __iter__(self):
+    def __iter__(self):
+        """
+        Initialise the iterator.
+
+        Returns
+        -------
+        self : RandIter
+
+        Raises
+        ------
+        RuntimeError
+            If iter is called twice on the same RandIter object.
+        """
+        if self.num_generated_numbers is not None:
+            raise RuntimeError('Iterator cannot be called twice')
+        self.num_generated_numbers = 0
+        return self
+
+    def __next__(self):
+        """
+        Generate the next random number.
+
+        Returns
+        -------
+        int
+            A random number.
+
+        Raises
+        ------
+        RuntimeError
+            If the ``__next__`` method is called before ``__iter__``.
+        StopIteration
+            If ``self.length`` random numbers are generated.
             """
-            Initialise the iterator.
-
-            Returns
-            -------
-            self : RandIter
-
-            Raises
-            ------
-            RuntimeError
-                If iter is called twice on the same RandIter object.
-            """
-            if self.num_generated_numbers is not None:
-                raise RuntimeError(
-                    'Iterator cannot be called twice on the same RandIter object'
-                )
-            self.num_generated_numbers = 0
-            return self
-
-        def __next__(self):
-            """
-            Generate the next random number.
-
-            Returns
-            -------
-            int
-                A random number.
-
-            Raises
-            ------
-            RuntimeError
-                If the ``__next__`` method is called before ``__iter__``.
-            StopIteration
-                If ``self.length`` random numbers are generated.
-                """
-            if self.num_generated_numbers is None:
-                raise RuntimeError(
-                    'Cannot call ``next`` before the iterator is '
-                    'initialised'
-                )
-            if self.num_generated_numbers == self.length:
-                raise StopIteration("All numbers have been generated")
-            self.num_generated_numbers += 1
-            return self.generator.rand()
+        if self.num_generated_numbers is None:
+            raise RuntimeError(
+                'Cannot call ``next`` before the iterator is '
+                'initialised'
+            )
+        if self.num_generated_numbers == self.length:
+            raise StopIteration("All numbers have been generated")
+        self.num_generated_numbers += 1
+        return self.generator.rand()
 
 
 if __name__ == "__main__":

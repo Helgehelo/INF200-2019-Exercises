@@ -56,7 +56,7 @@ class Simulation:
        """
         self.start = start
         self.home = home
-        self.seed = rd.seed(seed)
+        rd.seed(seed)
     def single_walk(self):
         """
         Simulate single walk from start to home, returning number of steps.
@@ -66,7 +66,7 @@ class Simulation:
         int
             The number of steps taken
         """
-        walk = Walker(self.start,self.home)
+        walk = Walker(self.start, self.home)
         while walk.is_at_home() is False:
             walk.move()
         return walk.get_steps()

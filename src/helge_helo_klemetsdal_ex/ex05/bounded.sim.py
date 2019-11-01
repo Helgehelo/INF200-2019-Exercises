@@ -4,6 +4,8 @@ __author__ = 'Helge Helo Klemetsdal'
 __email__ = 'hegkleme@nmbu.no'
 from .walker_sim import Walker, Simulation
 import random as rd
+
+
 class BoundedWalker(Walker):
     def __init__(self, start, home, left_limit, right_limit):
         """
@@ -24,23 +26,19 @@ class BoundedWalker(Walker):
         self.right_limit = right_limit
         super().__init__(start, home)
 
-        def move(self):
-            movement = rd.randint(0, 1)
-            if movement == 0:
-                self.position -= 1
-            else:
-                self.position += movement
+    def move(self):
+        movement = rd.randint(0, 1)
+        if movement == 0:
+            self.position -= 1
+        else:
+            self.position += movement
 
-            self.steps += 1
-            if self.get_position() == self.right_limit:
-                self.position = right_limit - 1
-                self.steps += 1
-            if self.get_position() == self.left_limit:
-                self.position = left_limit + 1
-                self.steps += 1
+        self.steps += 1
+        if self.get_position() > self.right_limit:
+            self.position = self.right_limit - 1
 
-
-# and for ``BoundedSimulation``
+        if self.get_position() < self.left_limit:
+            self.position = self.left_limit + 1
 
 
 class BoundedSimulation(Simulation):
@@ -65,19 +63,18 @@ class BoundedSimulation(Simulation):
         self.right_limit = right_limit
         super().__init__(start, home, seed)
 
-        def single_walk(self):
-            """
-            Simulate single walk from start to home, returning number of steps.
+    def single_walk(self):
+        """
+        Simulate single walk from start to home, returning number of steps.
 
-            Returns
-            -------
-            int
-                The number of steps taken
-            """
+        Returns
+        -------
+        int
+            The number of steps taken
+        """
 
         walk = BoundedWalker(self.start, self.home, self.left_limit,
                              self.right_limit)
         while walk.is_at_home() is False:
             walk.move()
         return walk.get_steps()
-
