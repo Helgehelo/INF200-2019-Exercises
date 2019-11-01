@@ -11,9 +11,6 @@ from .walker_sim import Walker, Simulation
 from .bounded_sim import BoundedWalker, BoundedSimulation
 from .myrand import LCGRand
 
-__author__ = "Hans Ekkehard Plesser"
-__email__ = "hans.ekkehard.plesser@nmbu.no"
-
 
 def test_lcg():
     """Test that LCG generator works."""
@@ -81,3 +78,14 @@ def test_bounded_walker():
     assert w.get_position() != start
     w.move()
     assert w.get_steps() == 2
+
+
+def test_bounded_simulation():
+    """Test that BoundedSimulation class can be used as required."""
+
+    start, home, left, right, seed, n_sim = 10, 20, 0, 30, 12345, 5
+    s = BoundedSimulation(start, home, seed, left, right)
+    assert s.single_walk() > 0
+    r = s.run_simulation(n_sim)
+    assert len(r) == n_sim
+    assert all(rs > 0 for rs in r)
