@@ -49,3 +49,40 @@ class TestBoard:
         assert output == 0
 
 
+class TestPlayer:
+    """
+    Tests for Player class.
+    """
+
+    def test_move_start(self):
+        """Test that the move method works in the start. Since we start at
+         position zero the new position should be any of these numbers
+          (2, 3, 4, 5, 6, 40)"""
+        new_pos = []
+        expected_positions = [2, 3, 4, 5, 6, 40]
+        conditional = True
+        for i in range(20):
+            b = cs.Player()
+            b.move()
+            new_pos.append(b.pos)
+        for j in new_pos:
+            if j not in expected_positions:
+                conditional = False
+        assert conditional
+
+    def test_move(self):
+        """Test that the move method works when not being in the
+        start position, if we start on position 9 the new position should be
+        any of these numbers (10, 11, 12, 13, 14, 15)"""
+        new_pos = []
+        expected_positions = [10, 11, 12, 13, 14, 15]
+        conditional = True
+        for i in range(20):
+            b = cs.Player()
+            b.pos = 9
+            b.move()
+            new_pos.append(b.pos)
+        for j in new_pos:
+            if j not in expected_positions:
+                conditional = False
+        assert conditional
