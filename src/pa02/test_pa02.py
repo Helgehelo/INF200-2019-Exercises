@@ -115,3 +115,45 @@ class TestResilientPlayer:
         # position 7
         p.move()
         assert p.pos == 7
+
+
+class TestLazyPlayer:
+    def test_move(self):
+        """Test to see if the ladder conditional is True after stepping
+        on a ladder"""
+        b = cs.Board()
+        p = cs.LazyPlayer(b)
+        random.seed(1)
+        p.pos = 6  # We set seed to 1 and position to 6 to make sure the move
+        # method take the LazyPlayer to 8 which is a ladder
+        p.move()
+        assert p.ladder_checker
+
+    def test_move_lazy(self):
+        """Test to see that the LazyPlayer takes one less step after going up
+        a ladder"""
+        b = cs.Board()
+        p = cs.LazyPlayer(b)
+        random.seed(1)
+        p.pos = 6  # We set seed to 1 and position to 6 to make sure the move
+        # method take the LazyPlayer to 8 which is a ladder
+        p.move()  # Moves the LazyPlayer to 10
+        random.seed(1)  # Reset seed so that the next move takes the LazyPlayer
+        # to position 11 (It would go to 12 if it was not Lazy)
+        p.move()
+        assert p.pos == 11
+
+    def test_move_backwards(self):
+        """Test to see that the LazyPlayer can not move backwards if
+        dropped_steps is more than 1"""
+        b = cs.Board()
+        p = cs.LazyPlayer(b, dropped_steps=3)
+        random.seed(1)
+        p.pos = 6  # We set seed to 1 and position to 6 to make sure the move
+        # method take the LazyPlayer to 8 which is a ladder
+        p.move()  # Moves the LazyPlayer to 10
+        random.seed(1)  # Reset seed so that the next move takes the LazyPlayer
+        # to position 10 (It would go to 12 if it was not Lazy
+        # and if it could go backwards it would go to pos 9)
+        p.move()
+        assert p.pos == 10
