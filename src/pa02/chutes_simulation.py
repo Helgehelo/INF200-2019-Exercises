@@ -71,7 +71,6 @@ class Board:
         return 0
 
 
-
 class Player:
 
     def __init__(self, board=Board()):
@@ -91,13 +90,40 @@ class Player:
 
 
 class ResilientPlayer(Player):
-    def __init__(self, board, extra_steps=4):
+    def __init__(self, board, extra_steps=1):
         super().__init__(board)
         self.extra_steps = extra_steps
-        self.pos = 0
+        self.chutes_checker = False
+
+    """Subclass of Player that takes extra steps on the next move after
+    going down a chute
+
+    Parameters
+    ----------
+    board - Board() object
+        choose what kind of board this player shall play on
+    extra_steps - int
+        number of steps to add
+    """
 
     def move(self):
-        pass
+        """ResilientPlayer first checks if it climbed a ladder last move, it
+         then executes the new move depending on the answer"""
+        if self.chutes_checker:
+            random_number = random.randint(1, 6)
+            self.pos += (random_number + self.extra_steps)
+            if self.board.position_adjustment(self.pos) < 0:
+                self.chutes_checker = True
+            else:
+                self.chutes_checker = False
+            self.pos += self.board.position_adjustment(self.pos)
+        else:
+            self.pos += random.randint(1, 6)
+            if self.board.position_adjustment(self.pos) < 0:
+                self.chutes_checker = True
+            else:
+                self.chutes_checker = False
+            self.pos += self.board.position_adjustment(self.pos)
 
 
 class LazyPlayer(Player):
