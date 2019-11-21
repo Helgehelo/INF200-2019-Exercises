@@ -86,3 +86,32 @@ class TestPlayer:
             if j not in expected_positions:
                 conditional = False
         assert conditional
+
+
+class TestResilientPlayer:
+
+    def test_move(self):
+        """Test to see if the chutes_checker conditional is True after stepping
+        on a chute"""
+        b = cs.Board()
+        p = cs.ResilientPlayer(b)
+        random.seed(1)
+        p.pos = 22  # We set seed to 1 and position to 22 to make sure the move
+        # method take the ResilientPlayer to 24 which is a chute
+        p.move()
+        assert p.chutes_checker
+
+    def test_move_steps(self):
+        """Test to see that the ResilientPlayer takes an extra step after
+        going down a chute"""
+        b = cs.Board()
+        p = cs.ResilientPlayer(b)
+        random.seed(1)
+        p.pos = 22  # We set seed to 1 and position to 22 to make sure the move
+        # method take the ResilientPlayer to 24 which is a chute
+        p.move()   # Moves the ResilientPlayer to 5
+        random.seed(2)  # Reset seed so that the next move will be 1 step plus
+        # the extra step which will take the ResilientPlayer to
+        # position 7
+        p.move()
+        assert p.pos == 7
