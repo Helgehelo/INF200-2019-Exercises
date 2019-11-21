@@ -3,6 +3,8 @@
 __author__ = 'Helge Helo Klemetsdal, Adam Julius Olof Kviman'
 __email__ = 'hegkleme@nmbu.no, juliukvi@nmbu.no'
 
+import random
+
 
 class Board:
 
@@ -71,11 +73,21 @@ class Board:
 
 
 class Player:
-    def __init__(self, board):
+
+    def __init__(self, board=Board()):
         self.board = board
+        self.pos = 0
+    """Class that handles the Players on the board
+    Parameters
+    ----------
+    board - Board() object
+        choose what kind of board this player shall play on
+    """
 
     def move(self):
-        pass
+        """Moves the Player"""
+        self.pos += random.randint(1, 6)
+        self.pos += self.board.position_adjustment(self.pos)
 
 
 class ResilientPlayer(Player):
