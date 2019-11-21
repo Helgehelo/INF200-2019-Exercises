@@ -1,12 +1,26 @@
+<<<<<<< Updated upstream
 # -*- coding: utf-8 -*-
 
 __author__ = 'Helge Helo Klemetsdal'
 __email__ = 'hegkleme@nmbu.no'
+=======
+<<<<<<< HEAD
+
+=======
+# -*- coding: utf-8 -*-
+>>>>>>> Stashed changes
 
 """
 Minimal set of compatibility tests for PA02.
 """
 
+<<<<<<< Updated upstream
+=======
+__author__ = 'Hans Ekkehard Plesser'
+__email__ = 'hans.ekkehard.plesser@nmbu.no'
+
+
+>>>>>>> Stashed changes
 import chutes_simulation as cs
 import pytest
 
@@ -28,8 +42,12 @@ class TestBoard:
 
     def test_constructor_named_args(self):
         """Constructor with kw args callable."""
+<<<<<<< Updated upstream
         b = cs.Board(ladders=[(1, 4), (5, 16)], chutes=[(9, 2), (12, 3)],
                      goal=90)
+=======
+        b = cs.Board(ladders=[(1, 4), (5, 16)], chutes=[(9, 2), (12, 3)], goal=90)
+>>>>>>> Stashed changes
         assert isinstance(b, cs.Board)
 
     def test_goal_reached(self):
@@ -73,6 +91,10 @@ class TestResilientPlayer:
         """ResilientPlayer can move."""
         b = cs.Board()
         p = cs.ResilientPlayer(b)
+<<<<<<< Updated upstream
+=======
+        p.pos = 23
+>>>>>>> Stashed changes
         p.move()
 
 
@@ -161,3 +183,7 @@ class TestSimulation:
                    for k in w.keys())
         assert all(len(v) >= 0 for v in w.values())
         assert all(n >= 0 for v in w.values() for n in v)
+<<<<<<< Updated upstream
+=======
+>>>>>>> pa02
+>>>>>>> Stashed changes
