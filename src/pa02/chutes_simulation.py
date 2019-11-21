@@ -5,18 +5,69 @@ __email__ = 'hegkleme@nmbu.no, juliukvi@nmbu.no'
 
 
 class Board:
-    def __init__(self, ladders=((1, 4), (5, 16)), chutes=((9, 2), (12, 3)),
-                 goal=90):
 
+    def __init__(self, ladders=((1, 40), (8, 10), (36, 52), (43, 62), (49, 79),
+                                (65, 82), (68, 85)),
+                 chutes=((24, 5), (33, 3), (42, 30), (56, 37), (64, 27),
+                         (74, 12), (87, 70)),
+                 goal=90):
+        """Class that handles the game board.
+
+        Parameters
+        ----------
+        ladders : list or tuple
+             the ladders on the board
+        chutes : list or tuple
+             the chutes on the board
+        goal : int
+            the position of the goal on the board
+        """
         self.ladders = ladders
         self.chutes = chutes
         self.goal = goal
 
-    def goal_reached(self, pos):
-        return True
+    def goal_reached(self, pos) -> bool:
+        """Checks if a player has reached the goal
+
+        Parameters
+        ----------
+        pos : int
+            the position of the player
+
+        Return
+        ------
+        Bool
+            True if goal reached otherwise False
+        """
+        if pos >= self.goal:
+            return True
+        else:
+            return False
 
     def position_adjustment(self, pos):
-        return 1
+        """Checks if a player is on a ladder or chute. If it is, the difference
+        between its current position to the position it needs to move is
+        returned
+
+        Parameter
+        ---------
+        pos : int
+            the position of the player
+
+        Returns
+        -------
+        int
+            the difference between the current position to the new position"""
+        for j in self.ladders:
+            if j[0] == pos:
+                difference = j[1]-j[0]
+                return difference
+        for j in self.chutes:
+            if j[0] == pos:
+                difference = j[1]-j[0]
+                return difference
+        return 0
+
 
 
 class Player:
