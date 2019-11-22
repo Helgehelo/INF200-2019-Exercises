@@ -157,3 +157,46 @@ class TestLazyPlayer:
         # and if it could go backwards it would go to pos 9)
         p.move()
         assert p.pos == 10
+
+
+class TestSimulation:
+    """Tests for Simulation class."""
+
+    def test_single_game(self):
+        """single_game() returns non-negative integer and class name"""
+        s = cs.Simulation([cs.Player, cs.Player])
+        nos, wc = s.single_game()
+        assert nos > 0
+        assert type(nos) == int
+        assert wc == 'Player'
+
+    def test_single_game_randomize_players(self):
+        """If Simulation object has randomize_players argument then
+        player_field should be shuffled"""
+        s = cs.Simulation([cs.Player, cs.LazyPlayer, cs.ResilientPlayer],
+                          randomize_players=True)
+        for i in range(1):
+            current_player_field = list(s.player_field)
+            s.single_game()
+            assert current_player_field != s.player_field
+
+    def test_run_simulation(self):
+        """run_simulation() can be called and runs the correct
+        amount of games"""
+        s = cs.Simulation()
+        s.run_simulation(6)
+        assert len(s.results) == 6
+
+    def test_average_winner(self):
+        """Test that the ResilientPlayer takes less steps than the Player and
+        that the Player takes less steps than the LazyPlayer on average"""
+        s = cs.Simulation([cs.Player, cs.LazyPlayer, cs.ResilientPlayer],
+                          randomize_players=True)
+        s.run_simulation(6000)
+        winner_dict = s.winners_per_type()
+        listoftuples = sorted(winner_dict.items(), reverse=True, key=lambda x: x[1])
+        print(winner_dict)
+        print(listoftuples)
+        assert listoftuples[0][0] == "ResilientPlayer"
+        assert listoftuples[1][0] == "Player"
+        assert listoftuples[2][0] == "LazyPlayer"
