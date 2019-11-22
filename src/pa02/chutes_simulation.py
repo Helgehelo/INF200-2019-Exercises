@@ -127,13 +127,40 @@ class ResilientPlayer(Player):
 
 
 class LazyPlayer(Player):
-    def __init__(self, board, dropped_steps=4):
+    def __init__(self, board, dropped_steps=1):
         super().__init__(board)
         self.dropped_steps = dropped_steps
-        self.pos = 0
+        self.ladder_checker = False
+
+    """Subclass of Player that takes less steps on the next move after
+    climbing a ladder
+
+    Parameters
+    ----------
+    board - Board() object
+        choose what kind of board this player shall play on
+    dropped_steps - int
+        number of steps to drop
+    """
 
     def move(self):
-        pass
+        """LazyPLayer first checks if it climbed a ladder last move, it then
+         executes the new move depending on the answer"""
+        if self.ladder_checker:
+            random_number = random.randint(1, 6)
+            self.pos += max(0, random_number - self.dropped_steps)
+            if self.board.position_adjustment(self.pos) > 0:
+                self.ladder_checker = True
+            else:
+                self.ladder_checker = False
+            self.pos += self.board.position_adjustment(self.pos)
+        else:
+            self.pos += random.randint(1, 6)
+            if self.board.position_adjustment(self.pos) > 0:
+                self.ladder_checker = True
+            else:
+                self.ladder_checker = False
+            self.pos += self.board.position_adjustment(self.pos)
 
 
 class Simulation:
