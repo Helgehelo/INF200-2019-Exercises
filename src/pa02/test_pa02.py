@@ -194,7 +194,8 @@ class TestSimulation:
                           randomize_players=True)
         s.run_simulation(6000)
         winner_dict = s.winners_per_type()
-        listoftuples = sorted(winner_dict.items(), reverse=True, key=lambda x: x[1])
+        listoftuples = sorted(winner_dict.items(), reverse=True, key=lambda x:
+                              x[1])
         print(winner_dict)
         print(listoftuples)
         assert listoftuples[0][0] == "ResilientPlayer"

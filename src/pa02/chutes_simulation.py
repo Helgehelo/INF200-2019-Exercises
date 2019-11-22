@@ -164,30 +164,98 @@ class LazyPlayer(Player):
 
 
 class Simulation:
-    def __init__(self, player_field=(Player, Player),
-                 board=Board, seed=123, randomize_players=True):
+    def __init__(self, player_field=(Player, LazyPlayer, LazyPlayer),
+                 board=Board(), seed=1337, randomize_players=True):
         self.player_field = list(player_field)
         self.board = board
         self.seed = seed
         self.randomize_players = randomize_players
         self.results = []
+        """Initialise the simulation
+        Parameters
+        ---------
+        player_field : list/tuple
+            Names of the Player classes to use
+        board : Board() object
+            The board to use in the simulation
+        seed : int
+            Random generator seed
+        randomize_players : Bool
+            If the player_field should be shuffled before each game
+        """
 
     def single_game(self):
-        return 2, "Player"
+        """Performs a single game and returns the winning class name and the
+        number of moves
+
+        Returns
+        --------
+        tuple
+            tuple with winning class and number of moves
+        """
+        if self.randomize_players:
+            random.shuffle(self.player_field)
+        player_objects = [i(self.board) for i in self.player_field]
+        moves = 0
+        while True:
+            for i in player_objects:
+                i.move()
+                if self.board.goal_reached(i.pos):
+                    moves += 1
+                    return moves, type(i).__name__
+            moves += 1
 
     def run_simulation(self, number_of_games):
+        """Runs a number of simulations and adds results to a list
+        Parameters
+        ----------
+        number_of_games - int
+            number of games to simulate
+        """
+        random.seed(self.seed)
         for i in range(number_of_games):
             self.results.append((self.single_game()))
 
     def get_results(self):
+        """Returns results"""
         return self.results
 
-    def players_per_type(self):
-        return {"Player": 10, "LazyPlayer": 22, "ResilientPlayer": 8}
-
     def winners_per_type(self):
-        return {"Player": 10, "LazyPlayer": 22, "ResilientPlayer": 8}
+        """Returns dictionary with how many wins each class had
+        Return
+        -------
+        dict
+            wins for each class
+        """
+        winners = [i[1] for i in self.results]
+        winner_dict = {x: winners.count(x) for x in winners}
+        return winner_dict
 
     def durations_per_type(self):
-        return {"Player": [1, 2, 3], "LazyPlayer": [1, 2, 3],
-                "ResilientPlayer": [1, 2, 3]}
+        """Returns dictionary with the number of moves that caused a win
+        for every class
+        Return
+        -------
+        dict
+            moves per win for each class
+        """
+        winners = [i[1] for i in self.results]
+        winners = list(set(winners))
+        winners_dict = {}
+        for i in winners:
+            move_number = []
+            for j in self.results:
+                if j[1] == i:
+                    move_number.append(j[0])
+            winners_dict[i] = move_number
+        return winners_dict
+
+    def players_per_type(self):
+        """Returns dictionary with the number of players of each Player class
+        Return
+        -------
+        dict
+            number of players of each class"""
+        players = [type(i(self.board)).__name__ for i in self.player_field]
+        player_dict = {x: players.count(x) for x in players}
+        return player_dict
