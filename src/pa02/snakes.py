@@ -2,5 +2,3 @@
 
 __author__ = 'Helge Helo Klemetsdal, Adam Julius Olof Kviman'
 __email__ = 'hegkleme@nmbu.no, juliukvi@nmbu.no'
-
-A = 2
